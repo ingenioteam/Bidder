@@ -150,7 +150,7 @@ function addBid(){
          }
          })
     } else{
-        alert('Sorry')
+        alert('Sorry...!!! You Cannot bid less than starting Value or Less than Competitor Bid')
     }
    
 }
@@ -193,7 +193,7 @@ function updateBid(bidId){
             }
         })
     } else{
-        alert('sorry')
+        alert('Sorry...!!! You Cannot bid less than starting Value or Less than Competitor Bid')
     }
   
 }
