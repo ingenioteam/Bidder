@@ -149,11 +149,7 @@ function addBid(){
          }
          })
     } else{
-<<<<<<< HEAD
-        alert('Sorry')
-=======
-        alert('Sorry..!!! You cannot bid less than starting Bid, or less than Competitor Bid')
->>>>>>> e5c1963740ffcaf05150d0c3d60f050a733aef5f
+        alert('Sorry..!!! You cannot bid less the starting value or less than Competitor')
     }
    
 }
