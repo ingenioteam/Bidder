@@ -41,12 +41,12 @@ function getBids(){
                         </div>
                         <div class="card-body">
                             <div  class="form-group col-md-4 float-left">
-                                <label for="Student">Pre-payment:</label>
+                                <label for="Student">Pre-payment (USD):</label>
                                 <input name="Student" class="form-control" value='${newPrePayment}' readonly />
                             </div>
                         
                             <div class="form-group col-md-4 float-left">
-                                <label for="Student">Monthly Fee:</label>
+                                <label for="Student">Monthly Fee (USD):</label>
                                 <input type="text" class="form-control" value='${data.data[i].monthlyFee }' id='monthlyFee'/>
                             </div>
                             <div class="row">
@@ -67,10 +67,10 @@ function getBids(){
                             </div>
                             <div class="card-body">
                             <div  class="form-group col-md-4 float-left">
-                                Pre-payment: <span>$${newPrePayment}</span>
+                                Pre-payment (USD): <span>$ ${newPrePayment}</span>
                                 </div>
                                 <div class="form-group col-md-4 float-left">
-                                    Monthly Fee: <span>$${data.data[i].monthlyFee}</span>
+                                    Monthly Fee (USD): <span>$ ${data.data[i].monthlyFee}</span>
                                 </div>
                                 <div class="row">
                                     <div class="col-md-2 offset-md-10">
@@ -90,12 +90,12 @@ function getBids(){
                         </div>
                         <div class="card-body">
                             <div  class="form-group col-md-4 float-left">
-                                <label for="Student">Pre-payment:</label>
+                                <label for="Student">Pre-payment (USD):</label>
                                 <input name="Student" class="form-control" id='prePayment' value='' readonly />
                             </div>
                         
                             <div class="form-group col-md-4 float-left">
-                                <label for="Student">Monthly Fee:</label>
+                                <label for="Student">Monthly Fee (USD):</label>
                                 <input type="text" class="form-control" value='' id='monthlyFee'/>
                             </div>
                             <div class="row">
