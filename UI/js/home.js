@@ -1,3 +1,4 @@
+
 $(document).ready(function(){
     var url ='https://bid-backend.herokuapp.com'
     // alert('working')
@@ -41,12 +42,12 @@ function getBids(){
                         </div>
                         <div class="card-body">
                             <div  class="form-group col-md-4 float-left">
-                                <label for="Student">Pre-payment (USD):</label>
+                                <label for="Student">Pre-payment:</label>
                                 <input name="Student" class="form-control" value='${newPrePayment}' readonly />
                             </div>
                         
                             <div class="form-group col-md-4 float-left">
-                                <label for="Student">Monthly Fee (USD):</label>
+                                <label for="Student">Monthly Fee:</label>
                                 <input type="text" class="form-control" value='${data.data[i].monthlyFee }' id='monthlyFee'/>
                             </div>
                             <div class="row">
@@ -63,14 +64,14 @@ function getBids(){
                     $('.container').append(`
                         <div class="card" style="margin-top: 5vh;">
                             <div class="card-header" style="text-align: center;">
-                                Bidder ${[(i+33)*55*(i+78)]}
+                                Bider 3145
                             </div>
                             <div class="card-body">
                             <div  class="form-group col-md-4 float-left">
-                                Pre-payment (USD): <span>$ ${newPrePayment}</span>
+                                Pre-payment: <span>$${newPrePayment}</span>
                                 </div>
                                 <div class="form-group col-md-4 float-left">
-                                    Monthly Fee (USD): <span>$ ${data.data[i].monthlyFee}</span>
+                                    Monthly Fee: <span>$${data.data[i].monthlyFee}</span>
                                 </div>
                                 <div class="row">
                                     <div class="col-md-2 offset-md-10">
@@ -90,12 +91,12 @@ function getBids(){
                         </div>
                         <div class="card-body">
                             <div  class="form-group col-md-4 float-left">
-                                <label for="Student">Pre-payment (USD):</label>
+                                <label for="Student">Pre-payment:</label>
                                 <input name="Student" class="form-control" id='prePayment' value='' readonly />
                             </div>
                         
                             <div class="form-group col-md-4 float-left">
-                                <label for="Student">Monthly Fee (USD):</label>
+                                <label for="Student">Monthly Fee:</label>
                                 <input type="text" class="form-control" value='' id='monthlyFee'/>
                             </div>
                             <div class="row">
@@ -149,7 +150,7 @@ function addBid(){
          }
          })
     } else{
-        alert('Sorry..!!! You cannot bid less the starting value or less than Competitor')
+        alert('Sorry')
     }
    
 }
@@ -192,7 +193,7 @@ function updateBid(bidId){
             }
         })
     } else{
-        alert('Sorry..!!! You cannot bid less than starting Bid, or less than Competitor Bid')
+        alert('sorry')
     }
   
 }
@@ -222,3 +223,5 @@ function getBidInformation(){
      }
      })
 }
+
+
