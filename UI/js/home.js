@@ -1,4 +1,3 @@
-
 $(document).ready(function(){
     var url ='https://bid-backend.herokuapp.com'
     // alert('working')
@@ -83,6 +82,7 @@ function getBids(){
                 }
             }
             if(!hasBid){
+                console.log('calling !hasBid')
                 $('.container').append(
                     `<div class="card" style="margin-top: 5vh;">
                         <div class="card-header" style="text-align: center;">
@@ -91,12 +91,12 @@ function getBids(){
                         <div class="card-body">
                             <div  class="form-group col-md-4 float-left">
                                 <label for="Student">Pre-payment:</label>
-                                <input name="Student" class="form-control" value='' readonly />
+                                <input name="Student" class="form-control" id='prePayment' value='' readonly />
                             </div>
                         
                             <div class="form-group col-md-4 float-left">
                                 <label for="Student">Monthly Fee:</label>
-                                <input type="text" class="form-control" value='${data.data[i].monthlyFee}' id='monthlyFee'/>
+                                <input type="text" class="form-control" value='' id='monthlyFee'/>
                             </div>
                             <div class="row">
                                 <div class="col-md-5"></div>
@@ -138,6 +138,7 @@ function addBid(){
              console.log(data);
              $('#loader').addClass('hide');
              $('#container').removeClass('hide')
+             $('#prePayment').val((($('#monthlyFee').val()*12) / 100)*window.localStorage.getItem('prePayment'))
             //  decodeToken(data.token);
              // window.localStorage.setItem('token',data.token);
              // console.log(data.token)
@@ -148,7 +149,7 @@ function addBid(){
          }
          })
     } else{
-        alert('Sorry..!!! You cannot bid less than starting Bid, or less than Cometitor Bid')
+        alert('Sorry')
     }
    
 }
