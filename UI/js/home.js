@@ -191,7 +191,7 @@ function updateBid(bidId){
             }
         })
     } else{
-        alert('sorry')
+        alert('Sorry..!!! You cannot bid less than starting Bid, or less than Competitor Bid')
     }
   
 }
