@@ -148,7 +148,7 @@ function addBid(){
          }
          })
     } else{
-        alert('Sorry')
+        alert('Sorry..!!! You cannot bid less than starting Bid, or less than Cometitor Bid')
     }
    
 }
