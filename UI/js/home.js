@@ -88,7 +88,7 @@ function getBids(){
                                     Monthly Fee: <span>$${data.data[i].monthlyFee}</span>
                                 </div>
                                 <div class="form-group col-md-4 float-left">
-                                    Monthly Fee: <span>$${data.data[i].advertisementMonthly }</span>
+                                    Monthly Advertisment Budget:: <span>$${data.data[i].advertisementMonthly }</span>
                                 </div>
                                 <div class="row">
                                     <div class="col-md-2 offset-md-10">
