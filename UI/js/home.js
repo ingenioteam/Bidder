@@ -40,7 +40,7 @@ function getBids(){
                     console.log(data.data[i].monthlyFee)
                     window.localStorage.setItem('startAmount',data.data[i].monthlyFee);
                 }
-                if(window.localStorage.getItem('userId') == data.data[i].user){
+                if(window.localStorage.getItem('userId') == data.data[i].user._id){
                     let newPrePayment = (data.data[i].monthlyFee*12 / 100)*prePayment;
                     hasBid = true;
                     // console.log('caliing------->')
