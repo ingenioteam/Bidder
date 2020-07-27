@@ -1,9 +1,11 @@
-
+var b=0;
 $(document).ready(function(){
     var url ='https://bid-backend.herokuapp.com'
     // alert('working')
     $('#loader').removeClass('hide')
     getBidInformation();
+    setInterval(getBids,10000);
+  
 })
 function getBids(){
     let token = window.localStorage.getItem('token');
@@ -16,9 +18,13 @@ function getBids(){
         contentType: "application/json",
         headers: {"Authorization": "Bearer "+token},
         success : function(data){
-            $('#loader').addClass('hide')
-            console.log(data);
+            $('#loader').addClass('hide');
+            $('.container').empty()
+            b++;
+            // $('#try').text(b)
+            // console.log(data);
             console.log(window.localStorage.getItem('userId'))
+            var count=1;
             var hasBid= false;
             var prePayment;
             var startAmount;
@@ -28,6 +34,8 @@ function getBids(){
             }
             for(var i =0; i< data.data.length; i++){
                 // console.log(data.data[i].user)
+                count+=35;
+                console.log(data.data[i].monthlyFee)
                 if(+window.localStorage.getItem('startAmount') < +data.data[i].monthlyFee){
                     console.log(data.data[i].monthlyFee)
                     window.localStorage.setItem('startAmount',data.data[i].monthlyFee);
@@ -35,6 +43,8 @@ function getBids(){
                 if(window.localStorage.getItem('userId') == data.data[i].user){
                     let newPrePayment = (data.data[i].monthlyFee*12 / 100)*prePayment;
                     hasBid = true;
+                    // console.log('caliing------->')
+                   
                     $('.container').append(
                     `<div class="card" style="margin-top: 5vh;">
                         <div class="card-header" style="text-align: center;">
@@ -50,6 +60,10 @@ function getBids(){
                                 <label for="Student">Monthly Fee:</label>
                                 <input type="text" class="form-control" value='${data.data[i].monthlyFee }' id='monthlyFee'/>
                             </div>
+                            <div class="form-group col-md-4 float-left">
+                            <label for="Student">Monthly Fee:</label>
+                            <input type="text" class="form-control" value='${data.data[i].advertisementMonthly }' id='advertisementMonthly'/>
+                        </div>
                             <div class="row">
                                 <div class="col-md-5"></div>
                             <div class="col-md-2 "style='margin-bottom:2vh'>
@@ -64,7 +78,7 @@ function getBids(){
                     $('.container').append(`
                         <div class="card" style="margin-top: 5vh;">
                             <div class="card-header" style="text-align: center;">
-                                Bidder ${[(i+2)*55*(i+44+i)]}
+                                Bider 314${count}
                             </div>
                             <div class="card-body">
                             <div  class="form-group col-md-4 float-left">
@@ -72,6 +86,9 @@ function getBids(){
                                 </div>
                                 <div class="form-group col-md-4 float-left">
                                     Monthly Fee: <span>$${data.data[i].monthlyFee}</span>
+                                </div>
+                                <div class="form-group col-md-4 float-left">
+                                    Monthly Fee: <span>$${data.data[i].advertisementMonthly }</span>
                                 </div>
                                 <div class="row">
                                     <div class="col-md-2 offset-md-10">
@@ -99,6 +116,10 @@ function getBids(){
                                 <label for="Student">Monthly Fee:</label>
                                 <input type="text" class="form-control" value='' id='monthlyFee'/>
                             </div>
+                            <div class="form-group col-md-4 float-left">
+                                <label for="Student">Monthly Fee:</label>
+                                <input type="text" class="form-control" value='' id='advertisementMonthly'/>
+                            </div>
                             <div class="row">
                                 <div class="col-md-5"></div>
                             <div class="col-md-2 "style='margin-bottom:2vh'>
@@ -121,12 +142,13 @@ function addBid(){
     var url ='https://bid-backend.herokuapp.com';
     console.log($('#monthlyFee').val());
     console.log(window.localStorage.getItem('startAmount'))
-    if(+$('#monthlyFee').val() > +window.localStorage.getItem('startAmount')){
+    if(+$('#monthlyFee').val() >= +window.localStorage.getItem('startAmount')){
         $('#loader').removeClass('hide')
         $('#container').addClass('hide')
         window.localStorage.setItem('startAmount',$('#monthlyFee').val())
         let val={
-            monthlyFee:$('#monthlyFee').val()
+            monthlyFee:$('#monthlyFee').val(),
+            advertisementMonthly:$('#advertisementMonthly').val() 
         }
          $.ajax({
          url:url+'/bid',
@@ -150,7 +172,7 @@ function addBid(){
          }
          })
     } else{
-        alert('Sorry...!!! You Cannot bid less than starting Value or Less than Competitor Bid')
+        alert("Sorry..!!! You can't Bid less than starting amount or Less than competitor's bid")
     }
    
 }
@@ -162,11 +184,12 @@ function updateBid(bidId){
     // monthlyFee,_id
     let val={
         monthlyFee:$('#monthlyFee').val(),
+        advertisementMonthly:$('#advertisementMonthly').val(),
         _id:bidId
     }
     console.log($('#monthlyFee').val());
     console.log( window.localStorage.getItem('startAmount'))
-    if(+$('#monthlyFee').val() > +window.localStorage.getItem('startAmount')){
+    if(+$('#monthlyFee').val() >= +window.localStorage.getItem('startAmount')){
         // console.log('Calling')
         window.localStorage.setItem('startAmount',$('#monthlyFee').val())
         $('#loader').removeClass('hide');
@@ -193,7 +216,7 @@ function updateBid(bidId){
             }
         })
     } else{
-        alert('Sorry...!!! You Cannot bid less than starting Value or Less than Competitor Bid')
+        alert("Sorry..!!! You can't Bid less than starting amount or Less than competitor's bid")
     }
   
 }
@@ -222,6 +245,9 @@ function getBidInformation(){
          console.log('Error',e)
      }
      })
+}
+function updateDate(){
+
 }
 
 
