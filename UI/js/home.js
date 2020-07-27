@@ -117,7 +117,7 @@ function getBids(){
                                 <input type="text" class="form-control" value='' id='monthlyFee'/>
                             </div>
                             <div class="form-group col-md-4 float-left">
-                                <label for="Student">Monthly Fee:</label>
+                                <label for="Student">Monthly Advertisment Budget:</label>
                                 <input type="text" class="form-control" value='' id='advertisementMonthly'/>
                             </div>
                             <div class="row">
