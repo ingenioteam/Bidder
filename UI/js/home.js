@@ -4,7 +4,7 @@ $(document).ready(function(){
     // alert('working')
     $('#loader').removeClass('hide')
     getBidInformation();
-    setInterval(getBids,30000);
+    setInterval(getBids,20000);
   
 })
 function getBids(){
