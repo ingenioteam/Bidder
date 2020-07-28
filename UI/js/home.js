@@ -2,6 +2,7 @@ var b=0;
 $(document).ready(function(){
     var url ='https://bid-backend.herokuapp.com'
     // alert('working')
+    
     $('#loader').removeClass('hide')
     getBidInformation();
     setInterval(getBids,20000);
