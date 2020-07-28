@@ -2,7 +2,6 @@ var b=0;
 $(document).ready(function(){
     var url ='https://bid-backend.herokuapp.com'
     // alert('working')
-    
     $('#loader').removeClass('hide')
     getBidInformation();
     setInterval(getBids,20000);
@@ -58,12 +57,14 @@ function getBids(){
                             </div>
                         
                             <div class="form-group col-md-4 float-left">
-                                <label for="Student">Monthly Fee:</label>
-                                <input type="text" class="form-control" value='${data.data[i].monthlyFee }' id='monthlyFee' required />
+                                <label for="Student" id='monthlyFeeLabel' >Monthly Fee:</label>
+                                <label for="Student"  id='monthhideFeeLabel' class='hide errorLabelShow'>Monthly Fee</label>
+                                <input type="number" class="form-control" value='${data.data[i].monthlyFee }' id='monthlyFee' required />
                             </div>
                             <div class="form-group col-md-4 float-left">
-                            <label for="Student">Monthly Advertisment Budget:</label>
-                            <input type="text" class="form-control" value='${data.data[i].advertisementMonthly }' id='advertisementMonthly' required />
+                            <label for="Student"  id='monthlyAdvLabel'>Monthly Advertisment Budget:</label>
+                            <label for="Student"  id='monthlyhideAdvLabel' class='hide errorLabelShow'>Monthly Advertisment Budget:</label>
+                            <input type="number" class="form-control" value='${data.data[i].advertisementMonthly }' id='advertisementMonthly' required />
                         </div>
                             <div class="row">
                                 <div class="col-md-5"></div>
@@ -114,12 +115,14 @@ function getBids(){
                             </div>
                         
                             <div class="form-group col-md-4 float-left">
-                                <label for="Student">Monthly Fee:</label>
-                                <input type="text" class="form-control" value='' id='monthlyFee' required/>
+                                <label for="Student" id='monthlyFeeLabel'>Monthly Fee:</label>
+                                <label for="Student" id='monthhideFeeLabel' class='hide errorLabelShow'>Monthly Fee:</label>
+                                <input type="number" class="form-control" value='' id='monthlyFee' required/>
                             </div>
                             <div class="form-group col-md-4 float-left">
-                                <label for="Student">Monthly Advertisment Budget:</label>
-                                <input type="text" class="form-control" value='' id='advertisementMonthly' required/>
+                                <label for="Student" id='monthlyAdvLabel'>Monthly Advertisment Budget:</label>
+                                <label for="Student" id='monthlyhideAdvLabel' class='hide errorLabelShow'>Monthly Monthly Advertisment Budget:</label>
+                                <input type="number" class="form-control" value='' id='advertisementMonthly' required/>
                             </div>
                             <div class="row">
                                 <div class="col-md-5"></div>
@@ -139,42 +142,50 @@ function getBids(){
         })
 }
 function addBid(){
-    let token = window.localStorage.getItem('token');
-    var url ='https://bid-backend.herokuapp.com';
-    console.log($('#monthlyFee').val());
-    console.log(window.localStorage.getItem('startAmount'))
-    if(+$('#monthlyFee').val() >= +window.localStorage.getItem('startAmount')){
-        $('#loader').removeClass('hide')
-        $('#container').addClass('hide')
-        window.localStorage.setItem('startAmount',$('#monthlyFee').val())
-        let val={
-            monthlyFee:$('#monthlyFee').val(),
-            advertisementMonthly:$('#advertisementMonthly').val() 
+    if($('#monthlyFee').val() && $('#advertisementMonthly').val()){
+        let token = window.localStorage.getItem('token');
+        var url ='https://bid-backend.herokuapp.com';
+        console.log($('#monthlyFee').val());
+        console.log(window.localStorage.getItem('startAmount'))
+        if(+$('#monthlyFee').val() >= +window.localStorage.getItem('startAmount')){
+            $('#loader').removeClass('hide')
+            $('#container').addClass('hide')
+            window.localStorage.setItem('startAmount',$('#monthlyFee').val())
+            let val={
+                monthlyFee:$('#monthlyFee').val(),
+                advertisementMonthly:$('#advertisementMonthly').val() 
+            }
+             $.ajax({
+             url:url+'/bid',
+             type:"POST",
+             data: JSON.stringify(val),
+             dataType: 'json',
+             contentType: "application/json",
+             headers: {"Authorization": "Bearer "+token},
+             success : function(data){
+                // myFunction();
+                myFunction('Bid added Successfully');
+                 console.log(data);
+                 $('#loader').addClass('hide');
+                 $('#container').removeClass('hide')
+                 $('#prePayment').val((($('#monthlyFee').val()*12) / 100)*window.localStorage.getItem('prePayment'))
+                //  decodeToken(data.token);
+                 // window.localStorage.setItem('token',data.token);
+                 // console.log(data.token)
+                 // window.location.replace('./home.html')
+             },
+             error:function(e){
+                 console.log('Error',e)
+             }
+             })
+        } else{
+            dangerSnack("Sorry..!!! You can't Bid less than starting amount or Less than competitor's bid");
+            // alert("Sorry..!!! You can't Bid less than starting amount or Less than competitor's bid")
         }
-         $.ajax({
-         url:url+'/bid',
-         type:"POST",
-         data: JSON.stringify(val),
-         dataType: 'json',
-         contentType: "application/json",
-         headers: {"Authorization": "Bearer "+token},
-         success : function(data){
-             console.log(data);
-             $('#loader').addClass('hide');
-             $('#container').removeClass('hide')
-             $('#prePayment').val((($('#monthlyFee').val()*12) / 100)*window.localStorage.getItem('prePayment'))
-            //  decodeToken(data.token);
-             // window.localStorage.setItem('token',data.token);
-             // console.log(data.token)
-             // window.location.replace('./home.html')
-         },
-         error:function(e){
-             console.log('Error',e)
-         }
-         })
     } else{
-        alert("Sorry..!!! You can't Bid less than starting amount or Less than competitor's bid")
+        dangerSnack('Please enter both Monthly fee and Monthly advertisment budget')
     }
+
    
 }
 function updateBid(bidId){
@@ -183,42 +194,61 @@ function updateBid(bidId){
     var token = window.localStorage.getItem('token');
     var url ='https://bid-backend.herokuapp.com';
     // monthlyFee,_id
-    let val={
-        monthlyFee:$('#monthlyFee').val(),
-        advertisementMonthly:$('#advertisementMonthly').val(),
-        _id:bidId
+    if($('#monthlyFee').val() && $('#advertisementMonthly').val()){
+        let val={
+            monthlyFee:$('#monthlyFee').val(),
+            advertisementMonthly:$('#advertisementMonthly').val(),
+            _id:bidId
+        }
+        console.log($('#monthlyFee').val());
+        console.log( window.localStorage.getItem('startAmount'))
+        if(+$('#monthlyFee').val() >= +window.localStorage.getItem('startAmount')){
+            // console.log('Calling')
+            window.localStorage.setItem('startAmount',$('#monthlyFee').val())
+            $('#loader').removeClass('hide');
+            $('#container').addClass('hide');
+            $.ajax({
+                url:url+'/bid',
+                type:"PATCH",
+                data: JSON.stringify(val),
+                dataType: 'json',
+                contentType: "application/json",
+                headers: {"Authorization": "Bearer "+token},
+                success : function(data){
+                    console.log(data);
+                    myFunction('Bid updated Successfully');
+                    $('#loader').addClass('hide');
+                    $('#container').removeClass('hide')
+                   //  decodeToken(data.token);
+                    // window.localStorage.setItem('token',data.token);
+                    // console.log(data.token)
+                    // window.location.replace('./home.html')
+                },
+                error:function(e){
+                    console.log('Error',e);
+                    $('#loader').addClass('hide');
+                }
+            })
+        } else{
+            dangerSnack("Sorry..!!! You can't Bid less than starting amount or Less than competitor's bid");
+            // alert("Sorry..!!! You can't Bid less than starting amount or Less than competitor's bid")
+        }
+    } else if(!$('#monthlyFee').val() && !$('#advertisementMonthly').val()) {
+        dangerSnack('Please enter both Monthly fee and Monthly advertisment budget')
+        $('#monthlyhideAdvLabel').removeClass('hide');
+        $('#monthlyAdvLabel').addClass('hide');
+        $('#monthlyFeeLabel').addClass('hide');
+        $('#monthhideFeeLabel').removeClass('hide');
+
+    } else if($('#monthlyFee').val() && !$('#advertisementMonthly').val()){
+        $('#monthlyhideAdvLabel').removeClass('hide');
+        $('#monthlyAdvLabel').addClass('hide');
+    } else if(!$('#monthlyFee').val() && $('#advertisementMonthly').val()){
+        $('#monthlyFeeLabel').addClass('hide');
+        $('#monthhideFeeLabel').removeClass('hide');
+
     }
-    console.log($('#monthlyFee').val());
-    console.log( window.localStorage.getItem('startAmount'))
-    if(+$('#monthlyFee').val() >= +window.localStorage.getItem('startAmount')){
-        // console.log('Calling')
-        window.localStorage.setItem('startAmount',$('#monthlyFee').val())
-        $('#loader').removeClass('hide');
-        $('#container').addClass('hide');
-        $.ajax({
-            url:url+'/bid',
-            type:"PATCH",
-            data: JSON.stringify(val),
-            dataType: 'json',
-            contentType: "application/json",
-            headers: {"Authorization": "Bearer "+token},
-            success : function(data){
-                console.log(data);
-                $('#loader').addClass('hide');
-                $('#container').removeClass('hide')
-               //  decodeToken(data.token);
-                // window.localStorage.setItem('token',data.token);
-                // console.log(data.token)
-                // window.location.replace('./home.html')
-            },
-            error:function(e){
-                console.log('Error',e);
-                $('#loader').addClass('hide');
-            }
-        })
-    } else{
-        alert("Sorry..!!! You can't Bid less than starting amount or Less than competitor's bid")
-    }
+
   
 }
 function getBidInformation(){
@@ -252,3 +282,31 @@ function updateDate(){
 }
 
 
+function myFunction(text) {
+    console.log('calling')
+    $('#snackbar').html(text)
+    $('#snackbar').css('background-color:green')
+    // Get the snackbar DIV
+    var x = document.getElementById("snackbar");
+    // x.innerText('Bid updated successfully..!')
+  
+    // Add the "show" class to DIV
+    x.className = "show";
+  
+    // After 3 seconds, remove the show class from DIV
+    setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
+  }
+
+  function dangerSnack(text) {
+    console.log('calling222')
+    $('#snackbarTwo').html(text)
+    // Get the snackbar DIV
+    var x = document.getElementById("snackbarTwo");
+    // x.innerText('Bid updated successfully..!')
+  
+    // Add the "show" class to DIV
+    x.className = "show";
+  
+    // After 3 seconds, remove the show class from DIV
+    setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
+  }

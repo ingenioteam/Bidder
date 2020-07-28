@@ -24,6 +24,7 @@ function login(){
     },
     error:function(e){
         console.log('Error',e);
+        dangerSnack('userName or password is incorrect')
         $('#loader').addClass('hide');
         $('#container').removeClass('hide');
     }
@@ -51,3 +52,17 @@ function decodeToken(token){
         }
         })
 }
+
+function dangerSnack(text) {
+    console.log('calling222')
+    $('#snackbarTwo').html(text)
+    // Get the snackbar DIV
+    var x = document.getElementById("snackbarTwo");
+    // x.innerText('Bid updated successfully..!')
+  
+    // Add the "show" class to DIV
+    x.className = "show";
+  
+    // After 3 seconds, remove the show class from DIV
+    setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
+  }
