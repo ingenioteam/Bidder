@@ -58,11 +58,11 @@ function getBids(){
                         
                             <div class="form-group col-md-4 float-left">
                                 <label for="Student">Monthly Fee:</label>
-                                <input type="text" class="form-control" value='${data.data[i].monthlyFee }' id='monthlyFee'/>
+                                <input type="text" class="form-control" value='${data.data[i].monthlyFee }' id='monthlyFee' required />
                             </div>
                             <div class="form-group col-md-4 float-left">
                             <label for="Student">Monthly Advertisment Budget:</label>
-                            <input type="text" class="form-control" value='${data.data[i].advertisementMonthly }' id='advertisementMonthly'/>
+                            <input type="text" class="form-control" value='${data.data[i].advertisementMonthly }' id='advertisementMonthly' required />
                         </div>
                             <div class="row">
                                 <div class="col-md-5"></div>
@@ -114,11 +114,11 @@ function getBids(){
                         
                             <div class="form-group col-md-4 float-left">
                                 <label for="Student">Monthly Fee:</label>
-                                <input type="text" class="form-control" value='' id='monthlyFee'/>
+                                <input type="text" class="form-control" value='' id='monthlyFee' required/>
                             </div>
                             <div class="form-group col-md-4 float-left">
                                 <label for="Student">Monthly Advertisment Budget:</label>
-                                <input type="text" class="form-control" value='' id='advertisementMonthly'/>
+                                <input type="text" class="form-control" value='' id='advertisementMonthly' required/>
                             </div>
                             <div class="row">
                                 <div class="col-md-5"></div>
