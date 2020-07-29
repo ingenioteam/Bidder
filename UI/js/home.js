@@ -1,4 +1,5 @@
-var b=0;
+var highestBidder;
+var myBidId;
 $(document).ready(function(){
     var url ='https://bid-backend.herokuapp.com'
     // alert('working')
@@ -18,11 +19,25 @@ function getBids(){
         contentType: "application/json",
         headers: {"Authorization": "Bearer "+token},
         success : function(data){
+            console.log(data)
+            if(highestBidder){
+                console.log('first Time....')
+                 console.log('local stroage : '+window.localStorage.getItem('userId'));
+                 console.log('Response : ',data.data[0].user._id);
+                 console.log('Highest Bid : ',highestBidder);
+                 console.log('Response Bid id : ', data.data[0]._id)
+                if(highestBidder != data.data[0]._id && window.localStorage.getItem('userId') != data.data[0].user._id ){
+                    console.log('calling')
+                    myFunction(`${data.data[0]._id} Bidder has bid more than you`)
+                    highestBidder = data.data[0]._id;
+                } else{
+                    highestBidder = data.data[0]._id;
+                }
+            }else{
+                highestBidder = data.data[0]._id;
+            }
             $('#loader').addClass('hide');
             $('.container').empty()
-            b++;
-            // $('#try').text(b)
-            // console.log(data);
             console.log(window.localStorage.getItem('userId'))
             var count=1;
             var hasBid= false;
@@ -34,6 +49,7 @@ function getBids(){
             }
             for(var i =0; i< data.data.length; i++){
                 // console.log(data.data[i].user)
+                
                 count+=35;
                 console.log(data.data[i].monthlyFee)
                 if(+window.localStorage.getItem('startAmount') < +data.data[i].monthlyFee){
@@ -43,7 +59,10 @@ function getBids(){
                 if(window.localStorage.getItem('userId') == data.data[i].user._id){
                     let newPrePayment = (data.data[i].monthlyFee*12 / 100)*prePayment;
                     hasBid = true;
-                    // console.log('caliing------->')
+                    myBidId = data.data[i]._id;
+                    console.log('my Bid Id: '+myBidId);
+                    console.log('Highest Bid Id:'+ data.data[0]._id)
+                    console.log('caliing------->')
                    
                     $('.container').append(
                     `<div class="card" style="margin-top: 5vh;">
@@ -80,7 +99,7 @@ function getBids(){
                     $('.container').append(`
                         <div class="card" style="margin-top: 5vh;">
                             <div class="card-header" style="text-align: center;">
-                                Bidder ${(count+55)*66}
+                                Bidder ${data.data[i]._id}
                             </div>
                             <div class="card-body">
                             <div  class="form-group col-md-4 float-left">
@@ -216,6 +235,7 @@ function updateBid(bidId){
                 headers: {"Authorization": "Bearer "+token},
                 success : function(data){
                     console.log(data);
+                    getBids()
                     myFunction('Bid updated Successfully');
                     $('#loader').addClass('hide');
                     $('#container').removeClass('hide')
