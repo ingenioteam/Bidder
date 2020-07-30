@@ -168,7 +168,7 @@ function getBids(){
                             </div>
                             <div class="card-body">
                             <div  class="form-group col-md-4 float-left">
-                                Pre-payment: <span>$${newPrePayment}</span>
+                                Pre-payment: <span>$${data.data[i].prePayment}</span>
                                 </div>
                                 <div class="form-group col-md-4 float-left">
                                     Monthly Fee: <span>$${data.data[i].monthlyFee}</span>
