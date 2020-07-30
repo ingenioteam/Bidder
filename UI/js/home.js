@@ -31,7 +31,7 @@ function getBids(){
                      console.log('Response Bid id : ', data.data[0]._id)
                     if(highestBidder != data.data[0]._id && window.localStorage.getItem('userId') != data.data[0].user._id ){
                         console.log('calling')
-                        myFunction(`${data.data[0]._id.substring(17)} Bidder add new bid`)
+                        myFunction(`${data.data[0]._id.substring(17)} Bidder Placed new bid`)
                         highestBidder = data.data[0]._id;
                     } else{
                         highestBidder = data.data[0]._id;
@@ -154,7 +154,7 @@ function getBids(){
                             <div class="row">
                                 <div class="col-md-5"></div>
                             <div class="col-md-2 "style='margin-bottom:2vh'>
-                                <button class="btn btn-primary" id='updateBid' disabled onclick="updateBid('${data.data[i]._id}')">Update Bid</button>
+                                <button class="btn btn-primary" id='updateBid' disabled onclick="updateBid('${data.data[i]._id}')">Raise Bid</button>
                             </div>
                             </div>
                         </div>
@@ -273,7 +273,7 @@ function getBids(){
                             <div class="row">
                                 <div class="col-md-5"></div>
                             <div class="col-md-2 "style='margin-bottom:2vh'>
-                                <button class="btn btn-primary" onclick="addBid()">Raise Bid</button>
+                                <button class="btn btn-primary" onclick="addBid()">Initiate Bid</button>
                             </div>
                             </div>
                         </div>
