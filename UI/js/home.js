@@ -13,6 +13,7 @@ function getBids(){
     let token = window.localStorage.getItem('token');
     console.log(token);
     var url ='https://bid-backend.herokuapp.com'
+    $('#updateBid').attr("disabled", true);
     $.ajax({
         url:url+'/admin',
         type:"GET",
@@ -104,7 +105,7 @@ function getBids(){
                                     <small style='font-size:70%'>Monthly Fee:</small>
                                 </label>
                                 <label for="Student"  id='monthhideFeeLabel' class='hide errorLabelShow'>Monthly Fee</label>
-                                <input type="number" class="form-control" value='${data.data[i].monthlyFee }' id='monthlyFee' required />
+                                <input type="number" class="form-control" value='${data.data[i].monthlyFee }' id='monthlyFee' readonly />
                             </div>
                             <div class="form-group col-md-2 float-left">
                                 <label for="Student">
@@ -129,7 +130,7 @@ function getBids(){
                                     <small style='font-size:70%'>Monthly Advertisment Budget:</small>
                                 </label>
                                 <label for="Student"  id='monthlyhideAdvLabel' class='hide errorLabelShow'>Monthly Advertisment Budget:</label>
-                                <input type="number" class="form-control" value='${data.data[i].advertisementMonthly }' id='advertisementMonthly' required />
+                                <input type="number" class="form-control" value='${data.data[i].advertisementMonthly }' id='advertisementMonthly' readonly />
                             </div>
                             <div class="form-group col-md-2 float-left">
                             <label for="Student">
@@ -153,7 +154,7 @@ function getBids(){
                             <div class="row">
                                 <div class="col-md-5"></div>
                             <div class="col-md-2 "style='margin-bottom:2vh'>
-                                <button class="btn btn-primary" onclick="updateBid('${data.data[i]._id}')">Update Bid</button>
+                                <button class="btn btn-primary" id='updateBid' disabled onclick="updateBid('${data.data[i]._id}')">Update Bid</button>
                             </div>
                             </div>
                         </div>
@@ -287,13 +288,13 @@ function getBids(){
         })
 }
 function addBid(){
-    if($('#monthlyFee').val() && $('#advertisementMonthly').val()){
+    // if($('#monthlyFee').val() && $('#advertisementMonthly').val()){
         let token = window.localStorage.getItem('token');
         var url ='https://bid-backend.herokuapp.com';
         // var url = 'https://f0771a5fe02f.ngrok.io'
         console.log($('#monthlyFee').val());
         console.log(window.localStorage.getItem('startAmount'))
-        if(+$('#monthlyFee').val() >= +window.localStorage.getItem('startAmount')){
+        // if(+$('#monthlyFee').val() >= +window.localStorage.getItem('startAmount')){
             $('#loader').removeClass('hide')
             $('#container').addClass('hide')
             window.localStorage.setItem('startAmount',$('#monthlyFee').val())
@@ -325,13 +326,13 @@ function addBid(){
                  console.log('Error',e)
              }
              })
-        } else{
-            dangerSnack("Sorry..!!! You can't Bid less than starting amount or Less than competitor's bid");
+        // } else{
+            // dangerSnack("Sorry..!!! You can't Bid less than starting amount or Less than competitor's bid");
             // alert("Sorry..!!! You can't Bid less than starting amount or Less than competitor's bid")
-        }
-    } else{
-        dangerSnack('Please enter both Monthly fee and Monthly advertisment budget')
-    }
+        // }
+    // } else{
+        // dangerSnack('Please enter both Monthly fee and Monthly advertisment budget')
+    // }
 
    
 }
@@ -342,19 +343,19 @@ function updateBid(bidId){
     var url ='https://bid-backend.herokuapp.com';
     // var url = 'https://f0771a5fe02f.ngrok.io'
     // monthlyFee,_id
-    if($('#monthlyFee').val() && $('#advertisementMonthly').val()){
+    // if($('#monthlyFee').val() && $('#advertisementMonthly').val()){
         let val={
             monthlyFee:$('#monthlyFee').val(),
             advertisementMonthly:$('#advertisementMonthly').val(),
             prePayment:$('#prePayment').val(),
             _id:bidId
         }
-        console.log(val)
-        console.log($('#monthlyFee').val());
-        console.log( window.localStorage.getItem('startAmount'))
-        if(+$('#monthlyFee').val() >= +window.localStorage.getItem('startAmount')){
+        // console.log(val)
+        // console.log($('#monthlyFee').val());
+        // console.log( window.localStorage.getItem('startAmount'))
+        // if(+$('#monthlyFee').val() >= +window.localStorage.getItem('startAmount')){
             // console.log('Calling')
-            window.localStorage.setItem('startAmount',$('#monthlyFee').val())
+            // window.localStorage.setItem('startAmount',$('#monthlyFee').val())
             $('#loader').removeClass('hide');
             $('#container').addClass('hide');
             $.ajax({
@@ -380,25 +381,25 @@ function updateBid(bidId){
                     $('#loader').addClass('hide');
                 }
             })
-        } else{
-            dangerSnack("Sorry..!!! You can't Bid less than starting amount or Less than competitor's bid");
+        // } else{
+            // dangerSnack("Sorry..!!! You can't Bid less than starting amount or Less than competitor's bid");
             // alert("Sorry..!!! You can't Bid less than starting amount or Less than competitor's bid")
-        }
-    } else if(!$('#monthlyFee').val() && !$('#advertisementMonthly').val()) {
-        dangerSnack('Please enter both Monthly fee and Monthly advertisment budget')
-        $('#monthlyhideAdvLabel').removeClass('hide');
-        $('#monthlyAdvLabel').addClass('hide');
-        $('#monthlyFeeLabel').addClass('hide');
-        $('#monthhideFeeLabel').removeClass('hide');
+        // }
+    // } else if(!$('#monthlyFee').val() && !$('#advertisementMonthly').val()) {
+    //     dangerSnack('Please enter both Monthly fee and Monthly advertisment budget')
+    //     $('#monthlyhideAdvLabel').removeClass('hide');
+    //     $('#monthlyAdvLabel').addClass('hide');
+    //     $('#monthlyFeeLabel').addClass('hide');
+    //     $('#monthhideFeeLabel').removeClass('hide');
 
-    } else if($('#monthlyFee').val() && !$('#advertisementMonthly').val()){
-        $('#monthlyhideAdvLabel').removeClass('hide');
-        $('#monthlyAdvLabel').addClass('hide');
-    } else if(!$('#monthlyFee').val() && $('#advertisementMonthly').val()){
-        $('#monthlyFeeLabel').addClass('hide');
-        $('#monthhideFeeLabel').removeClass('hide');
+    // } else if($('#monthlyFee').val() && !$('#advertisementMonthly').val()){
+    //     $('#monthlyhideAdvLabel').removeClass('hide');
+    //     $('#monthlyAdvLabel').addClass('hide');
+    // } else if(!$('#monthlyFee').val() && $('#advertisementMonthly').val()){
+    //     $('#monthlyFeeLabel').addClass('hide');
+    //     $('#monthhideFeeLabel').removeClass('hide');
 
-    }
+    // }
 
   
 }
@@ -463,17 +464,20 @@ function myFunction(text) {
   }
 
 function changePrePayment(e){
+    $('#updateBid').removeAttr("disabled");
     console.log(e.value);
     var prePaymentOldValue = $('#prePayment').val();
     console.log(prePaymentOldValue);
     $('#prePayment').val(+prePaymentOldValue+(+e.value) )
 }
 function changemonthlyFee(e){
+    $('#updateBid').removeAttr("disabled");
     var monthlyFee= $('#monthlyFee').val()
     $('#monthlyFee').val(+monthlyFee+(+e.value) )
 }
 
 function  changeAdvFee(e){
+$('#updateBid').removeAttr("disabled");
  var monthlyAdvOldValue= $('#advertisementMonthly').val();
  $('#advertisementMonthly').val(+monthlyAdvOldValue+(+e.value))
 }
