@@ -1,5 +1,6 @@
 var highestBidder;
 var myBidId;
+// var monthly
 $(document).ready(function(){
     var url ='https://bid-backend.herokuapp.com'
     // alert('working')
@@ -20,22 +21,25 @@ function getBids(){
         headers: {"Authorization": "Bearer "+token},
         success : function(data){
             console.log(data)
-            if(highestBidder){
-                console.log('first Time....')
-                 console.log('local stroage : '+window.localStorage.getItem('userId'));
-                 console.log('Response : ',data.data[0].user._id);
-                 console.log('Highest Bid : ',highestBidder);
-                 console.log('Response Bid id : ', data.data[0]._id)
-                if(highestBidder != data.data[0]._id && window.localStorage.getItem('userId') != data.data[0].user._id ){
-                    console.log('calling')
-                    myFunction(`${data.data[0]._id} Bidder has bid more than you`)
-                    highestBidder = data.data[0]._id;
-                } else{
+            if(data.data.length > 0){
+                if(highestBidder){
+                    console.log('first Time....')
+                     console.log('local stroage : '+window.localStorage.getItem('userId'));
+                     console.log('Response : ',data.data[0].user._id);
+                     console.log('Highest Bid : ',highestBidder);
+                     console.log('Response Bid id : ', data.data[0]._id)
+                    if(highestBidder != data.data[0]._id && window.localStorage.getItem('userId') != data.data[0].user._id ){
+                        console.log('calling')
+                        myFunction(`${data.data[0]._id.substring(17)} Bidder add new bid`)
+                        highestBidder = data.data[0]._id;
+                    } else{
+                        highestBidder = data.data[0]._id;
+                    }
+                }else{
                     highestBidder = data.data[0]._id;
                 }
-            }else{
-                highestBidder = data.data[0]._id;
             }
+        
             $('#loader').addClass('hide');
             $('.container').empty()
             console.log(window.localStorage.getItem('userId'))
@@ -70,21 +74,82 @@ function getBids(){
                             You
                         </div>
                         <div class="card-body">
-                            <div  class="form-group col-md-4 float-left">
-                                <label for="Student">Pre-payment:</label>
-                                <input name="Student" class="form-control" value='${newPrePayment}' readonly />
+                            <div  class="form-group col-md-2 float-left">
+                                <label for="Student">
+                                    <small style='font-size:70%'>Pre-payment:</small>
+                                </label>
+                                <input name="Student" class="form-control" id='prePayment' value='${data.data[i].prePayment }' readonly />
                             </div>
+                            <div  class="form-group col-md-2 float-left">
+                                <label for="Student">
+                                    <small style='font-size:70%'>Raise Amount:</small>
+                                </label>
+                                <select class='form-control' onchange="changePrePayment(this);">
+                                        <option value="0">Select Raise</option>
+                                        <option value="1000">1000</option>
+                                        <option value="2000">2000</option>
+                                        <option value="3000">3000</option>
+                                        <option value="4000">4000</option>
+                                        <option value="5000">5000</option>
+                                        <option value="6000">6000</option>
+                                        <option value="7000">7000</option>
+                                        <option value="8000">8000</option>
+                                        <option value="9000">9000</option>
+                                        <option value="10000">10000</option>
+                                    </select>
+                                </div>
                         
-                            <div class="form-group col-md-4 float-left">
-                                <label for="Student" id='monthlyFeeLabel' >Monthly Fee:</label>
+                            <div class="form-group col-md-2 float-left">
+                                <label for="Student" id='monthlyFeeLabel' >
+                                    <small style='font-size:70%'>Monthly Fee:</small>
+                                </label>
                                 <label for="Student"  id='monthhideFeeLabel' class='hide errorLabelShow'>Monthly Fee</label>
                                 <input type="number" class="form-control" value='${data.data[i].monthlyFee }' id='monthlyFee' required />
                             </div>
-                            <div class="form-group col-md-4 float-left">
-                            <label for="Student"  id='monthlyAdvLabel'>Monthly Advertisment Budget:</label>
-                            <label for="Student"  id='monthlyhideAdvLabel' class='hide errorLabelShow'>Monthly Advertisment Budget:</label>
-                            <input type="number" class="form-control" value='${data.data[i].advertisementMonthly }' id='advertisementMonthly' required />
-                        </div>
+                            <div class="form-group col-md-2 float-left">
+                                <label for="Student">
+                                    <small style='font-size:70%'>Raise Amount:</small>
+                                </label>
+                                <select class='form-control' onchange="changemonthlyFee(this);">
+                                    <option value="0">Select Raise</option>
+                                    <option value="1000">1000</option>
+                                    <option value="2000">2000</option>
+                                    <option value="3000">3000</option>
+                                    <option value="4000">4000</option>
+                                    <option value="5000">5000</option>
+                                    <option value="6000">6000</option>
+                                    <option value="7000">7000</option>
+                                    <option value="8000">8000</option>
+                                    <option value="9000">9000</option>
+                                    <option value="10000">10000</option>
+                                </select>
+                            </div>
+                            <div class="form-group col-md-2 float-left">
+                                <label for="Student"  id='monthlyAdvLabel'>
+                                    <small style='font-size:70%'>Monthly Advertisment Budget:</small>
+                                </label>
+                                <label for="Student"  id='monthlyhideAdvLabel' class='hide errorLabelShow'>Monthly Advertisment Budget:</label>
+                                <input type="number" class="form-control" value='${data.data[i].advertisementMonthly }' id='advertisementMonthly' required />
+                            </div>
+                            <div class="form-group col-md-2 float-left">
+                            <label for="Student">
+                                <small style='font-size:70%'>Raise Amount:</small>
+                            </label>
+                            <select class='form-control' onchange="changeAdvFee(this);">
+                                    <option value="0">Select Raise</option>
+                            
+                                    <option value="1000">1000</option>
+                                    <option value="2000">2000</option>
+                                    <option value="3000">3000</option>
+                                    <option value="4000">4000</option>
+                                    <option value="5000">5000</option>
+                                    <option value="6000">6000</option>
+                                    <option value="7000">7000</option>
+                                    <option value="8000">8000</option>
+                                    <option value="9000">9000</option>
+                                    <option value="10000">10000</option>
+                                </select>
+                            </div>
                             <div class="row">
                                 <div class="col-md-5"></div>
                             <div class="col-md-2 "style='margin-bottom:2vh'>
@@ -99,7 +164,7 @@ function getBids(){
                     $('.container').append(`
                         <div class="card" style="margin-top: 5vh;">
                             <div class="card-header" style="text-align: center;">
-                                Bidder ${data.data[i]._id}
+                                Bidder ${data.data[i]._id.substring(17)}
                             </div>
                             <div class="card-body">
                             <div  class="form-group col-md-4 float-left">
@@ -128,20 +193,81 @@ function getBids(){
                             You
                         </div>
                         <div class="card-body">
-                            <div  class="form-group col-md-4 float-left">
-                                <label for="Student">Pre-payment:</label>
-                                <input name="Student" class="form-control" id='prePayment' value='' readonly />
+                            <div  class="form-group col-md-2 float-left">
+                                <label for="Student">
+                                    <small style='font-size:70%'>Pre-payment:</small>
+                                </label>
+                                <input name="Student" class="form-control" value='10000' readonly id='prePayment'/>
+                            </div>
+                            <div class="form-group col-md-2 float-left">
+                                <label for="Student">
+                                    <small style='font-size:70%'>Raise Amount:</small>
+                                </label>
+                                <select class='form-control' onchange="changePrePayment(this);">
+                                <option value="0">Select Raise</option>
+                             
+                                    <option value="1000">1000</option>
+                                    <option value="2000">2000</option>
+                                    <option value="3000">3000</option>
+                                    <option value="4000">4000</option>
+                                    <option value="5000">5000</option>
+                                    <option value="6000">6000</option>
+                                    <option value="7000">7000</option>
+                                    <option value="8000">8000</option>
+                                    <option value="9000">9000</option>
+                                    <option value="10000">10000</option>
+                                </select>
                             </div>
                         
-                            <div class="form-group col-md-4 float-left">
-                                <label for="Student" id='monthlyFeeLabel'>Monthly Fee:</label>
-                                <label for="Student" id='monthhideFeeLabel' class='hide errorLabelShow'>Monthly Fee:</label>
-                                <input type="number" class="form-control" value='' id='monthlyFee' required/>
+                            <div class="form-group col-md-2 float-left">
+                                <label for="Student" id='monthlyFeeLabel'>
+                                    <small style='font-size:70%'>Monthly Fee:</small>
+                                </label>
+                                <input type="number" class="form-control" value='10000' id='monthlyFee' readonly required/>
                             </div>
-                            <div class="form-group col-md-4 float-left">
-                                <label for="Student" id='monthlyAdvLabel'>Monthly Advertisment Budget:</label>
-                                <label for="Student" id='monthlyhideAdvLabel' class='hide errorLabelShow'>Monthly Monthly Advertisment Budget:</label>
-                                <input type="number" class="form-control" value='' id='advertisementMonthly' required/>
+                            <div  class="form-group col-md-2 float-left">
+                                <label for="Student">
+                                    <small style='font-size:70%'>Raise Amount:</small>
+                                </label>
+                                <select class='form-control' onchange="changemonthlyFee(this);">
+                                <option value="0">Select Raise</option>
+                        
+                                <option value="1000">1000</option>
+                                <option value="2000">2000</option>
+                                <option value="3000">3000</option>
+                                <option value="4000">4000</option>
+                                <option value="5000">5000</option>
+                                <option value="6000">6000</option>
+                                <option value="7000">7000</option>
+                                <option value="8000">8000</option>
+                                <option value="9000">9000</option>
+                                <option value="10000">10000</option>
+                                </select>
+                            </div>
+                            <div class="form-group col-md-2 float-left">
+                                <label for="Student" id='monthlyAdvLabel'>
+                                    <small style='font-size:70%'>Monthly Advertisment Budget:</small>
+                                </label>
+                                <input type="number" class="form-control" value='10000' id='advertisementMonthly' readonly/>
+                            </div>
+                            <div  class="form-group col-md-2 float-left">
+                                <label for="Student">
+                                    <small style='font-size:70%'>Raise Amount:</small>
+                                </label>
+                                <select class='form-control' onchange="changeAdvFee(this);">
+                                <option value="0">Select Raise</option>
+                     
+                                <option value="1000">1000</option>
+                                <option value="2000">2000</option>
+                                <option value="3000">3000</option>
+                                <option value="4000">4000</option>
+                                <option value="5000">5000</option>
+                                <option value="6000">6000</option>
+                                <option value="7000">7000</option>
+                                <option value="8000">8000</option>
+                                <option value="9000">9000</option>
+                                <option value="10000">10000</option>
+                                </select>
                             </div>
                             <div class="row">
                                 <div class="col-md-5"></div>
@@ -164,6 +290,7 @@ function addBid(){
     if($('#monthlyFee').val() && $('#advertisementMonthly').val()){
         let token = window.localStorage.getItem('token');
         var url ='https://bid-backend.herokuapp.com';
+        // var url = 'https://f0771a5fe02f.ngrok.io'
         console.log($('#monthlyFee').val());
         console.log(window.localStorage.getItem('startAmount'))
         if(+$('#monthlyFee').val() >= +window.localStorage.getItem('startAmount')){
@@ -172,7 +299,8 @@ function addBid(){
             window.localStorage.setItem('startAmount',$('#monthlyFee').val())
             let val={
                 monthlyFee:$('#monthlyFee').val(),
-                advertisementMonthly:$('#advertisementMonthly').val() 
+                advertisementMonthly:$('#advertisementMonthly').val(),
+                prePayment:$('#prePayment').val()
             }
              $.ajax({
              url:url+'/bid',
@@ -187,7 +315,7 @@ function addBid(){
                  console.log(data);
                  $('#loader').addClass('hide');
                  $('#container').removeClass('hide')
-                 $('#prePayment').val((($('#monthlyFee').val()*12) / 100)*window.localStorage.getItem('prePayment'))
+                //  $('#prePayment').val((($('#monthlyFee').val()*12) / 100)*window.localStorage.getItem('prePayment'))
                 //  decodeToken(data.token);
                  // window.localStorage.setItem('token',data.token);
                  // console.log(data.token)
@@ -212,13 +340,16 @@ function updateBid(bidId){
     console.log(bidId)
     var token = window.localStorage.getItem('token');
     var url ='https://bid-backend.herokuapp.com';
+    // var url = 'https://f0771a5fe02f.ngrok.io'
     // monthlyFee,_id
     if($('#monthlyFee').val() && $('#advertisementMonthly').val()){
         let val={
             monthlyFee:$('#monthlyFee').val(),
             advertisementMonthly:$('#advertisementMonthly').val(),
+            prePayment:$('#prePayment').val(),
             _id:bidId
         }
+        console.log(val)
         console.log($('#monthlyFee').val());
         console.log( window.localStorage.getItem('startAmount'))
         if(+$('#monthlyFee').val() >= +window.localStorage.getItem('startAmount')){
@@ -311,7 +442,7 @@ function myFunction(text) {
     // x.innerText('Bid updated successfully..!')
   
     // Add the "show" class to DIV
-    x.className = "show";
+    x.className = "row show";
   
     // After 3 seconds, remove the show class from DIV
     setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
@@ -328,5 +459,21 @@ function myFunction(text) {
     x.className = "show";
   
     // After 3 seconds, remove the show class from DIV
-    setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
+    setTimeout(function(){ x.className = x.className.replace("show", ""); }, 5000);
   }
+
+function changePrePayment(e){
+    console.log(e.value);
+    var prePaymentOldValue = $('#prePayment').val();
+    console.log(prePaymentOldValue);
+    $('#prePayment').val(+prePaymentOldValue+(+e.value) )
+}
+function changemonthlyFee(e){
+    var monthlyFee= $('#monthlyFee').val()
+    $('#monthlyFee').val(+monthlyFee+(+e.value) )
+}
+
+function  changeAdvFee(e){
+ var monthlyAdvOldValue= $('#advertisementMonthly').val();
+ $('#advertisementMonthly').val(+monthlyAdvOldValue+(+e.value))
+}
