@@ -79,7 +79,7 @@ function getBids(){
                                 <label for="Student">
                                     <small style='font-size:70%'>Pre-payment:</small>
                                 </label>
-                                <input name="Student" class="form-control" id='prePayment' value='${data.data[i].prePayment }' readonly />
+                                <input name="Student" class="form-control" id='prePayment' value='${data.data[i].prePayment }'  />
                             </div>
                             <div  class="form-group col-md-2 float-left">
                                 <label for="Student">
@@ -105,7 +105,7 @@ function getBids(){
                                     <small style='font-size:70%'>Monthly Fee:</small>
                                 </label>
                                 <label for="Student"  id='monthhideFeeLabel' class='hide errorLabelShow'>Monthly Fee</label>
-                                <input type="number" class="form-control" value='${data.data[i].monthlyFee }' id='monthlyFee' readonly />
+                                <input type="number" class="form-control" value='${data.data[i].monthlyFee }' id='monthlyFee'  />
                             </div>
                             <div class="form-group col-md-2 float-left">
                                 <label for="Student">
@@ -130,7 +130,7 @@ function getBids(){
                                     <small style='font-size:70%'>Monthly Advertisment Budget:</small>
                                 </label>
                                 <label for="Student"  id='monthlyhideAdvLabel' class='hide errorLabelShow'>Monthly Advertisment Budget:</label>
-                                <input type="number" class="form-control" value='${data.data[i].advertisementMonthly }' id='advertisementMonthly' readonly />
+                                <input type="number" class="form-control" value='${data.data[i].advertisementMonthly }' id='advertisementMonthly'  />
                             </div>
                             <div class="form-group col-md-2 float-left">
                             <label for="Student">
@@ -198,7 +198,7 @@ function getBids(){
                                 <label for="Student">
                                     <small style='font-size:70%'>Pre-payment:</small>
                                 </label>
-                                <input name="Student" class="form-control" value='10000' readonly id='prePayment'/>
+                                <input name="Student" class="form-control" value='10000'  id='prePayment'/>
                             </div>
                             <div class="form-group col-md-2 float-left">
                                 <label for="Student">
@@ -224,7 +224,7 @@ function getBids(){
                                 <label for="Student" id='monthlyFeeLabel'>
                                     <small style='font-size:70%'>Monthly Fee:</small>
                                 </label>
-                                <input type="number" class="form-control" value='10000' id='monthlyFee' readonly required/>
+                                <input type="number" class="form-control" value='10000' id='monthlyFee'  required/>
                             </div>
                             <div  class="form-group col-md-2 float-left">
                                 <label for="Student">
@@ -249,7 +249,7 @@ function getBids(){
                                 <label for="Student" id='monthlyAdvLabel'>
                                     <small style='font-size:70%'>Monthly Advertisment Budget:</small>
                                 </label>
-                                <input type="number" class="form-control" value='10000' id='advertisementMonthly' readonly/>
+                                <input type="number" class="form-control" value='10000' id='advertisementMonthly' />
                             </div>
                             <div  class="form-group col-md-2 float-left">
                                 <label for="Student">
